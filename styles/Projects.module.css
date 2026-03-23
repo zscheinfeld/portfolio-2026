@@ -95,12 +95,40 @@
     color: inherit;
   }
 
-  .projectCard:not(.projectCardExpanded):hover .projectTitle,
-  .projectCard:not(.projectCardExpanded):hover .projectDate,
+  .projectCard:not(.projectCardExpanded):not(.projectCardEmpty):hover .projectTitle,
+  .projectCard:not(.projectCardExpanded):not(.projectCardEmpty):hover .projectDate,
   .projectCardExpanded:has(.caseStudyButton:hover) .projectTitle,
   .projectCardExpanded:has(.caseStudyButton:hover) .projectDate {
     background-color: #31f0e0;
     color: black;
+  }
+
+  .projectCardEmpty {
+    opacity: 0.4 !important;
+    cursor: none;
+    position: relative;
+  }
+
+  .projectCardEmpty:hover {
+    opacity: 0.4 !important;
+  }
+
+  .comingSoonTooltip {
+    display: none;
+    position: fixed;
+    background: white;
+    color: black;
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 12px;
+    padding: 4px 10px;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 1000;
+  }
+
+  .projectCardEmpty:hover .comingSoonTooltip {
+    display: block;
   }
 
   .projectCard img {
@@ -435,9 +463,32 @@
   margin-right: 0.5rem;
 }
 
-.listRow:hover .listColumn {
+.listRow:not(.listRowEmpty):hover .listColumn {
   background-color: #31f0e0;
   color: black;
+}
+
+.listRowEmpty {
+  opacity: 0.4;
+  cursor: none;
+}
+
+.listRowComingSoon {
+  display: none;
+  position: fixed;
+  background: white;
+  color: black;
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 12px;
+  padding: 4px 10px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+.listRowEmpty:hover .listRowComingSoon {
+  display: block;
 }
 
 .listColumn:nth-child(2) {

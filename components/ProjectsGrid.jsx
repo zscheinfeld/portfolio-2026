@@ -104,6 +104,7 @@ export default function ProjectsGrid({ projects = [], filters, sortBy, viewMode,
   const router = useRouter();
   const [hoveredFilter, setHoveredFilter] = useState(null);
   const [hoveredProject, setHoveredProject] = useState(null);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [zoomLevel, setZoomLevel] = useState(1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -311,16 +312,20 @@ export default function ProjectsGrid({ projects = [], filters, sortBy, viewMode,
                 return (
                   <div key={project.id} style={{ opacity: projectMatchesHoveredFilter(project) ? 1 : 0.2 }}>
                     <div
-                      className={`${styles.listRow} ${isExpanded ? styles.listRowExpanded : ''}`}
-                      onClick={() => handleListProjectClick(project)}
-                      onMouseEnter={() => !isExpanded && setHoveredProject(project)}
+                      className={`${styles.listRow} ${isExpanded ? styles.listRowExpanded : ''} ${project.contentBlockCount === 0 ? styles.listRowEmpty : ''}`}
+                      onClick={() => project.contentBlockCount > 0 && handleListProjectClick(project)}
+                      onMouseEnter={() => !isExpanded && project.contentBlockCount > 0 && setHoveredProject(project)}
                       onMouseLeave={() => setHoveredProject(null)}
+                      {...(project.contentBlockCount === 0 ? {
+                        onMouseMove: (e) => setCursorPos({ x: e.clientX, y: e.clientY }),
+                      } : {})}
                     >
                       <div className={styles.listColumn}>{isExpanded && <span className={styles.listExpandedIndicator}>&ndash;</span>}{project.title}</div>
                       <div className={styles.listColumn}>{project.date}</div>
                       <div className={styles.listColumn}>
                         {Array.isArray(project.category) ? project.category.join(', ') : project.category}
                       </div>
+                      {project.contentBlockCount === 0 && <div className={styles.listRowComingSoon} style={{ left: cursorPos.x, top: cursorPos.y }}>Coming Soon</div>}
                     </div>
                     {(isExpanded || isLoading) && (
                       <div className={styles.listAccordion}>
@@ -383,25 +388,37 @@ export default function ProjectsGrid({ projects = [], filters, sortBy, viewMode,
             </div>
           </div>
         ) : (
-          filteredProjects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/portfolio/${project.slug}`}
-              className={styles.projectCard}
-              style={{
-                opacity: projectMatchesHoveredFilter(project) ? 1 : 0.2,
-              }}
-            >
-              <div className={styles.projectTitleOuter}>
-                <h3 className={styles.projectTitle}>{project.title}</h3>
-                <p className={styles.projectDate}>{project.date}</p>
-              </div>
-              <img
-                src={`https:${project.image}`}
-                alt={project.title}
-              />
-            </Link>
-          ))
+          filteredProjects.map((project) => {
+            const isEmpty = project.contentBlockCount === 0;
+            const Wrapper = isEmpty ? 'div' : Link;
+            const wrapperProps = isEmpty
+              ? {}
+              : { href: `/portfolio/${project.slug}` };
+
+            return (
+              <Wrapper
+                key={project.id}
+                {...wrapperProps}
+                className={`${styles.projectCard} ${isEmpty ? styles.projectCardEmpty : ''}`}
+                style={{
+                  opacity: projectMatchesHoveredFilter(project) ? 1 : 0.2,
+                }}
+                {...(isEmpty ? {
+                  onMouseMove: (e) => setCursorPos({ x: e.clientX, y: e.clientY }),
+                } : {})}
+              >
+                <div className={styles.projectTitleOuter}>
+                  <h3 className={styles.projectTitle}>{project.title}</h3>
+                  <p className={styles.projectDate}>{project.date}</p>
+                </div>
+                <img
+                  src={`https:${project.image}`}
+                  alt={project.title}
+                />
+                {isEmpty && <div className={styles.comingSoonTooltip} style={{ left: cursorPos.x, top: cursorPos.y }}>Coming Soon</div>}
+              </Wrapper>
+            );
+          })
         )}
       </main>
 

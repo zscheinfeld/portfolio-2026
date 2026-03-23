@@ -98,6 +98,15 @@
     gap: 1rem;
   }
 
+  .compactSection {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .compactSection > div:nth-child(2) {
+    display: none;
+  }
+
   .yearRange {
     display: none;
   }
