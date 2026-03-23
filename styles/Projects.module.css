@@ -1,0 +1,779 @@
+
+
+.container {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    z-index: 1;
+    position: relative;
+    background-color: black;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+  }
+
+  .categoryName{
+    color: white;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 12px;
+
+
+  }
+  
+  .controls {
+    width: 200px;
+    flex-shrink: 0;
+    position: sticky;
+    align-self: flex-start;
+  }
+  
+  .controlGroup {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .controlGroup h3 {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  .controlGroup button,
+  .controlGroup a {
+    display: inline-block;
+    width: auto;
+    padding: 0.5rem 24px;
+    background: none;
+    border: 1px solid #d0d0d0;
+    border-radius: 24px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+  }
+
+  .controlGroup button:hover,
+  .controlGroup a:hover {
+    background: #31f0e0;
+    color: black;
+    border-color: #31f0e0;
+  }
+
+  .controlGroup button.active:hover,
+  .controlGroup a.active:hover {
+    border-color: #d0d0d0;
+  }
+
+
+  .grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    column-gap: 1rem;
+    row-gap: 2rem;
+    align-items: start;
+    grid-auto-rows: min-content;
+    overflow-y: scroll;
+    padding-inline: 3px;
+    min-height: 0;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+  
+  .gridLocked {
+    overflow-y: hidden; /* Lock scroll when about page is visible */
+  }
+  
+
+  .projectCard {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .projectCard:not(.projectCardExpanded):hover .projectTitle,
+  .projectCard:not(.projectCardExpanded):hover .projectDate,
+  .projectCardExpanded:has(.caseStudyButton:hover) .projectTitle,
+  .projectCardExpanded:has(.caseStudyButton:hover) .projectDate {
+    background-color: #31f0e0;
+    color: black;
+  }
+
+  .projectCard img {
+    width: 100%;
+    height: auto; /* Let height be determined by aspect ratio */
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .projectCardExpanded img {
+    outline: none;
+  }
+
+  /* When hovering the thumbnail of an expanded card, hint that clicking will collapse */
+  .projectCardExpanded img:hover ~ .expandedActions .collapseButton {
+    background: #31f0e0;
+    color: black;
+    border-color: #31f0e0;
+  }
+
+  .projectImgLoading {
+    opacity: 0.6;
+  }
+
+  /* Case study link shown below thumbnail when a project is expanded */
+  .caseStudyButton {
+    display: inline-block;
+    padding: 0.5rem 16px;
+    background: none;
+    border: 1px solid #d0d0d0;
+    border-radius: 24px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .caseStudyButton:hover {
+    background: #31f0e0;
+    color: black;
+    border-color: #31f0e0;
+  }
+
+  /* Expanded media blocks — mounted one at a time via JS for stop-motion effect */
+  .expandedBlock {
+  }
+
+  .expandedBlock .projectTitle {
+    font-family: var(--font-mono);
+  }
+
+  .expandedBlock img,
+  .expandedBlock video {
+    outline: 1.5px solid #31f0e0;
+    transition: outline-color 0.15s ease;
+  }
+
+  .expandedBlock:hover img,
+  .expandedBlock:hover video {
+    outline-color: #31f0e0;
+  }
+
+  .expandedBlock:hover .expandedVideoWrapper {
+    outline-color: #31f0e0;
+  }
+
+  .expandedBlock:hover .projectTitle {
+    background-color: #31f0e0;
+    color: black;
+  }
+
+  .expandedBlockNameLabel {
+    display: none;
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  .expandedBlock:hover .expandedBlockNameLabel {
+    display: inline-block;
+    background-color: #31f0e0;
+    color: black;
+  }
+
+  .expandedBlockLink {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .expandedActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  .collapseButton {
+    display: inline-block;
+    /* padding: 0.5rem 11px; */
+    height: 32px;
+    width: 32px;
+    background: none;
+    border: 1px solid #d0d0d0;
+    border-radius: 100%;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .collapseButton:hover {
+    background: #31f0e0;
+    color: black;
+    border-color: #31f0e0;
+  }
+
+.expandedVideoWrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+  }
+
+  .expandedBlock .expandedVideoWrapper {
+    outline: 1.5px solid #31f0e0;
+    transition: outline-color 0.15s ease;
+  }
+
+  .expandedVideoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+.videoOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.videoSpinner {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  pointer-events: none;
+}
+
+.videoSpinner::after {
+  content: '';
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spinnerRotate 0.8s linear infinite;
+}
+
+@keyframes spinnerRotate {
+  to { transform: rotate(360deg); }
+}
+
+.videoSpinnerFading {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+  .projectTitleOuter{
+    display: flex;
+    color:#FDFDFD;
+    padding-bottom: 6px;
+  }
+
+  .projectTitle{
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  .projectDate{
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 12px;
+    padding-left: 12px;
+  }
+  
+  
+  .caseStudy {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    overflow-y: auto;
+    min-height: 0;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .caseStudy::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+
+  .controls:has(.projectInfo) {
+    width: 300px;
+  }
+
+.controlGroup button.active,
+.controlGroup a.active {
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+.asideDivider {
+  border: none;
+  border-top: 1px solid #d0d0d0;
+  margin: 1.5rem 0;
+}
+
+.projectInfo {
+  margin-top: 0;
+  color: white;
+}
+
+.projectInfo .projectTitle {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.projectInfo .projectYear {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 12px;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.projectInfo .projectDescription {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.6;
+  color: white;
+}
+
+.backLink {
+  color: white;
+  text-decoration: none;
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: #31f0e0;
+}
+
+.listView {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  grid-column: 1 / -1;
+  width: 100%;
+  position: relative;
+}
+
+.listView > div:first-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.thumbnailPreview {
+  position: sticky;
+  top: 0;
+  height: fit-content;
+  pointer-events: none;
+  z-index: 100;
+  padding-left: 2rem;
+}
+
+.thumbnailPreview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.listHeader {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #d0d0d0;
+  position: sticky;
+  top: 0;
+  background-color: black;
+  z-index: 10;
+}
+
+.listHeaderColumn {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 14px;
+  color: white;
+}
+
+.listRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 1rem 0;
+  border-bottom: 1px solid #505050;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.listRowExpanded {
+  border-bottom: none;
+}
+
+.listExpandedIndicator {
+  margin-right: 0.5rem;
+}
+
+.listRow:hover .listColumn {
+  background-color: #31f0e0;
+  color: black;
+}
+
+.listColumn:nth-child(2) {
+  font-family: var(--font-mono);
+}
+
+.listColumn {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 14px;
+  color: white;
+}
+
+/* Accordion carousel that appears below an expanded list row */
+.listAccordion {
+  display: grid;
+  grid-template-rows: 0fr;
+  animation: accordionOpen 0.4s ease forwards;
+}
+
+@keyframes accordionOpen {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+
+.listAccordionInner {
+  min-height: 0;
+  overflow: hidden;
+  border-bottom: 1px solid #505050;
+  padding-bottom: 1rem;
+}
+
+.carouselTrack {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 1rem;
+}
+
+.carouselTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselSlide {
+  flex: 0 0 200px;
+  width: 200px;
+  height: calc(200px * 9 / 16);
+  overflow: hidden;
+}
+
+.carouselSlide img,
+.carouselSlide video {
+  width: 200px;
+  height: calc(200px * 9 / 16);
+  display: block;
+  object-fit: cover;
+}
+
+.carouselSlide .expandedVideoWrapper {
+  width: 200px;
+  height: calc(200px * 9 / 16);
+  padding-bottom: 0;
+}
+
+.carouselControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carouselArrows {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carouselArrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: none;
+  border: 1px solid #d0d0d0;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.carouselArrow:hover:not(:disabled) {
+  background: #31f0e0;
+  color: black;
+  border-color: #31f0e0;
+}
+
+.carouselArrowDisabled {
+  color: #505050;
+  border-color: #505050;
+  cursor: default;
+}
+
+.zoomControls {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.zoomButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: black;
+  border: 1px solid #d0d0d0;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* transition: all 0.2s ease; */
+}
+
+.zoomButton:hover:not(:disabled) {
+  background: #31f0e0;
+  color: black;
+  border-color: #31f0e0;
+}
+
+.zoomButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.zoom0 {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+}
+
+.zoom1 {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+}
+
+.zoom2 {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
+}
+
+/* Mobile-only elements — hidden on desktop */
+.mobilePrefsButton {
+  display: none;
+}
+
+.mobileCloseButton {
+  display: none;
+}
+
+.drawerHandle {
+  display: none;
+}
+
+.fixedNavMobile {
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 1rem;
+    padding-top: 0;
+    height: calc(100vh - 50px);
+  }
+
+  /* Drawer — peeks out by 50px (handle height), slides up when open */
+  .controls {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: calc(50vh + 50px);
+    background: black;
+    z-index: 1000;
+    overflow-y: auto;
+    transform: translateY(calc(100% - 50px));
+    transition: transform 400ms ease-out;
+    pointer-events: auto;
+    padding: 0;
+  }
+
+  .controls.controlsHidden {
+    transform: translateY(100%);
+    pointer-events: none;
+  }
+
+
+  /* Show drawer fully when open — slide up from bottom, content-height */
+  .controls.controlsOpen {
+    transform: translateY(0);
+    height: auto;
+    max-height: calc(100vh - 50px);
+    overflow-y: auto;
+    padding-bottom: 24px;
+  }
+
+  /* Handle bar — always visible at bottom of screen */
+  .drawerHandle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    width: 100%;
+    height: 50px;
+    background: black;
+    border: none;
+    border-top: 0.5px solid #d0d0d0;
+    color: white;
+    padding: 0 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* Settings content below the handle */
+  .controls .controlGroup {
+    padding: 1.5rem 1rem 0;
+  }
+
+  /* Mobile close button — no longer used but kept for safety */
+  .mobileCloseButton {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    line-height: 1;
+  }
+
+  .mobileCloseButton:hover {
+    color: #31f0e0;
+  }
+
+  /* Adjust grid for mobile with preferences bar at bottom */
+  .grid {
+    padding-bottom: calc(50px + env(safe-area-inset-bottom, 0));
+  }
+
+  /* Hide zoom controls on mobile */
+  .zoomControls {
+    display: none;
+  }
+
+  /* List view adjustments for mobile */
+  .listView {
+    grid-template-columns: 1fr;
+  }
+
+  .thumbnailPreview {
+    display: none;
+  }
+
+  .listHeader {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .listHeader .listHeaderColumn:last-child {
+    display: none;
+  }
+
+  .listRow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .listRow .listColumn:last-child {
+    display: none;
+  }
+
+  /* Project detail page - show project info at top on mobile */
+  .controls:has(.projectInfo) {
+    display: block;
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 24px 1rem 0;
+    margin-bottom: 42px;
+    order: -1;
+    transform: none;
+    transition: none;
+    z-index: auto;
+    overflow-y: visible;
+    bottom: auto;
+  }
+
+  .controls:has(.projectInfo) .projectInfo {
+    margin-top: 0;
+  }
+
+  /* Case study content on mobile */
+  .caseStudy {
+    width: 100%;
+    max-width: 100%;
+    overflow-y: visible;
+    flex: none;
+  }
+
+  .fixedNavMobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
+
+  /* Case study page: let the whole container scroll naturally */
+  .container:has(.caseStudy) {
+    height: auto;
+    min-height: calc(100vh - 50px);
+    overflow: visible;
+    padding-top: 50px;
+  }
+}

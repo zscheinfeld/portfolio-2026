@@ -1,0 +1,39 @@
+.nav {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid #d0d0d0;
+    background-color: #000000;
+    height: 60px;
+    z-index: 1;
+    position: sticky;
+    top: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  
+  .navRight {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .nav a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  
+  .nav a:hover {
+    color: #31f0e0;
+  }
+
+@media (max-width: 768px) {
+  .nav {
+    height: 50px;
+    border-bottom: 0.5px solid #d0d0d0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

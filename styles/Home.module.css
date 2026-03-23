@@ -1,3 +1,41 @@
+.about_container {
+  height: 100vh;
+  background-color: #31f0e0;
+  position: fixed;
+  z-index: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.about_container.hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+.about_text{
+  width: 50%;
+  padding: 30px;
+  font-size: 24px;
+  line-height: 140%;
+  color: black;
+}
+
+.scroll_Space {
+  height: calc(100vh - 60px);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .scroll_Space {
+    height: calc(100vh - 50px);
+  }
+}
+
+.scroll_Space.hidden {
+  height: 0;
+  overflow: hidden;
+}
+
+
+
 .page {
   --background: #fafafa;
   --foreground: #fff;
@@ -93,6 +131,37 @@ a.secondary {
   border-color: var(--button-secondary-border);
 }
 
+.nav {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #000000;
+  height: 60px;
+  z-index: 1;
+  position: sticky;
+  top: 60px;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.navRight{
+  display: flex;
+  gap: 16px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: #31f0e0;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
@@ -103,6 +172,15 @@ a.secondary {
   a.secondary:hover {
     background: var(--button-secondary-hover);
     border-color: transparent;
+  }
+}
+
+@media (max-width: 768px) {
+  .about_text {
+    width: 100%;
+    font-size: 16px;
+    line-height: 140%;
+    font-weight: 500;
   }
 }
 
