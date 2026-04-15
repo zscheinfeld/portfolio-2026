@@ -217,7 +217,7 @@ export default function Home({ projects }) {
   
       <div className={`${styles.about_container} ${mode === 1 ? styles.hidden : ''}`}>
         <div className={styles.about_text}>
-          Zach Scheinfeld is a multidisciplinary designer, artist, and creative programmer from New Rochelle, NY. He's interested in pushing the boundaries of digital experiences and using the browser as a generative tool to build a more creative, fun, and thoughtful internet. In 2016, Zach earned his BA in Studio Art and Mathematics from Wesleyan University, and in 2023, graduated with an MFA in Graphic Design from RISD.
+          Zach Scheinfeld is a multidisciplinary designer, artist, and creative programmer from New Rochelle, NY. He’s interested in pushing existing design tools (or making his own) in unconventional directions to build websites, brands, and digital experiences that are surprising and delightful. In 2016, Zach earned his BA in Studio Art and Mathematics from Wesleyan University, and in 2023, graduated with an MFA in Graphic Design from RISD.
           <br></br>
           <br></br>
           Zach is currently working as a designer at Pentagram for team Giorgia Lupi in New York City and teaching Interaction Design at Parsons. He's also worked with agencies like Studio Rodrigo, Prophet, and Work & Co. You can reach him at zscheinf@gmail.com.
