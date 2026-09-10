@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import styles from "@/styles/Home.module.css";
 import ProjectsGrid from "@/components/ProjectsGrid";
 import { getAllProjects } from "@/lib/contentful";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_OG_IMAGE } from "@/lib/site";
 
 function getNavHeight() {
   return window.innerWidth <= 768 ? 50 : 60;
@@ -209,15 +210,27 @@ export default function Home({ projects }) {
   return (
     <>
       <Head>
-        <title>Zach Scheinfeld</title>
-        <meta name="description" content="Multidisciplinary designer, artist, and creative programmer" />
+        <title>{SITE_NAME}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={SITE_NAME} />
+        <meta property="og:title" content={SITE_NAME} />
+        <meta property="og:url" content={SITE_URL} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={SITE_OG_IMAGE} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={SITE_NAME} />
+        <meta name="twitter:description" content={SITE_DESCRIPTION} />
+        <meta name="twitter:image" content={SITE_OG_IMAGE} />
       </Head>
   
       <div className={`${styles.about_container} ${mode === 1 ? styles.hidden : ''}`}>
         <div className={styles.about_text}>
-          Zach Scheinfeld is a multidisciplinary designer, artist, and creative programmer from New Rochelle, NY. He’s interested in pushing existing design tools (or making his own) in unconventional directions to build websites, brands, and digital experiences that are surprising and delightful. In 2016, Zach earned his BA in Studio Art and Mathematics from Wesleyan University, and in 2023, graduated with an MFA in Graphic Design from RISD.
+          Zach Scheinfeld is a multidisciplinary designer and creative programmer from New Rochelle, NY. He’s passionate about building unique digital experiences, brands, and digital products through unconventional use of design tools and technology. In 2016, Zach earned his BA in Studio Art and Mathematics from Wesleyan University, and in 2023, graduated with an MFA in Graphic Design from RISD.
           <br></br>
           <br></br>
           Zach is currently working as a senior designer at Pentagram for team Giorgia Lupi in New York City and teaching Interaction Design at Parsons. He's also worked with agencies like Studio Rodrigo, Prophet, and Work & Co. You can reach him at zscheinf@gmail.com.

@@ -4,13 +4,29 @@ import styles from "@/styles/Home.module.css";
 import projectStyles from "@/styles/Projects.module.css";
 import ContentBlock from "@/components/ContentBlock";
 import { getAllProjects, getProjectBySlug } from "@/lib/contentful";
+import { SITE_URL, SITE_NAME } from "@/lib/site";
 import Nav from "@/components/Nav";
 
 export default function CaseStudy({ project }) {
+  const pageUrl = `${SITE_URL}/portfolio/${project.slug}`;
+
   return (
     <>
       <Head>
         <title>{project.title}</title>
+        {project.description && <meta name="description" content={project.description} />}
+
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content={SITE_NAME} />
+        <meta property="og:title" content={project.title} />
+        <meta property="og:url" content={pageUrl} />
+        {project.description && <meta property="og:description" content={project.description} />}
+        {project.ogImage && <meta property="og:image" content={project.ogImage} />}
+
+        <meta name="twitter:card" content={project.ogImage ? "summary_large_image" : "summary"} />
+        <meta name="twitter:title" content={project.title} />
+        {project.description && <meta name="twitter:description" content={project.description} />}
+        {project.ogImage && <meta name="twitter:image" content={project.ogImage} />}
       </Head>
       
      <div className={projectStyles.fixedNavMobile}>
